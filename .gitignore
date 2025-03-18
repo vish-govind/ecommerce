@@ -1,0 +1,58 @@
+# Ignore target directory (compiled classes and packaged JARs)
+target/
+
+# Ignore Maven and Gradle wrapper files
+.mvn/
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Ignore IDE settings
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.project
+.classpath
+.factorypath
+.settings/
+
+# Ignore logs and temp files
+logs/
+*.log
+hs_err_pid*
+dump/
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore test reports
+test-output/
+surefire-reports/
+.extended-test-reports/
+
+# Ignore environment-specific files
+*.env
+.env.local
+.env.production
+.env.test
+
+# Ignore dependency lock files
+package-lock.json
+yarn.lock
+
+# Ignore application config files 
+secrets.properties
+
+# Ignore database files
+*.h2.db
+*.mv.db
+*.sqlite
+
+# Ignore compiled class files
+*.class
+ 
+# Ignore Eclipse metadata
+.metadata/
