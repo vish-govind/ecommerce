@@ -54,7 +54,7 @@ The application is designed using a layered architecture that includes:
 
 ## Setup and Installation
 1. **Clone the Repository:**
-   ```bash
+ ```bash
    git clone https://github.com/vish-govind/ecommerce.git
    cd your-ecommerce-app
 
