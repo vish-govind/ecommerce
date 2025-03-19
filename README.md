@@ -42,6 +42,7 @@ The application is designed using a layered architecture that includes:
 - **Services:** Business logic encapsulated in service classes (e.g., `CartServiceImpl`, `OrderServiceImpl`, `PaymentServiceImpl`, `ProductServiceImpl`, `UserServiceImpl`).
 - **Repositories:** Data persistence managed via Spring Data JPA.
 - **Security:** Configured using Spring Security with JWT for authentication and role-based access.
+- **Exception Handling & DTO Mapping:** Global exception handling is implemented using `@RestControllerAdvice` to ensure consistent error responses, and dedicated mapper classes (e.g., `CartItemMapper`) convert entities to DTOs for streamlined data transfer.
 - **Caching & Resilience:** Integrated caching via Spring Cache annotations and circuit breaker patterns (using libraries like Resilience4j) to manage fallbacks in case of service failure.
 
 ## Tech Stack
@@ -58,7 +59,6 @@ The application is designed using a layered architecture that includes:
 - **Clone the Repository:**
 
    git clone https://github.com/vish-govind/ecommerce.git
-
    cd your-ecommerce-app
 
 - **Update your application.yml with your actual database configuration**
