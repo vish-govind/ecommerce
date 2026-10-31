@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.dmart.dto.ProductDTO;
@@ -27,7 +28,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	@CacheEvict(value = "products", allEntries = true)
+	@Caching(evict = {
+    @CacheEvict(value = "products", allEntries = true),
+    @CacheEvict(value = "allProducts", allEntries = true),
+    @CacheEvict(value = "productsByCategory", allEntries = true)
+})
 	public ProductDTO addProduct(ProductDTO productDto) {
 		logger.info("Adding new product: {}", productDto.getProductName());
 		Product product = ProductMapper.toEntity(productDto);
@@ -37,8 +42,15 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	@CachePut(value = "products", key = "#id")
-	@CacheEvict(value = "allProducts", allEntries = true)
+	@Caching(
+    put = {
+        @CachePut(value = "products", key = "#id")
+    },
+    evict = {
+        @CacheEvict(value = "allProducts", allEntries = true),
+        @CacheEvict(value = "productsByCategory", allEntries = true)
+    }
+)
 	public ProductDTO updateProduct(Long id, ProductDTO productDto) {
 		logger.info("Updating product with ID: {}", id);
 		

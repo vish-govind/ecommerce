@@ -1,10 +1,12 @@
 spring:
   config:
-    import: classpath:secrets.properties
+    import: optional:file:.env[.properties]
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,3 +22,6 @@ resilience4j:
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
         waitDurationInOpenState: 10s
+
+jwt:
+  secret: ${JWT_SECRET}

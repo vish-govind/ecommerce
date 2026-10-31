@@ -6,7 +6,7 @@ public interface UserService {
 	
 	User registerUser(User user);
 	User getUserByUsername(String username);
-	User updateUser(User user);
+	User updateUser(String username, User user);
 	void deleteUser(Long userId);
 
 }

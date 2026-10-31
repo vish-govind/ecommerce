@@ -7,16 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartDTO {
-	
-	private Long cartId;   
-    private Long userId; 
-    private String userName; 
-    private List<CartItemDTO> items;
 
+    private Long cartId;
+    private Long userId;
+    private String userName;
+    private List<CartItemDTO> items;
+    private double totalAmount;
 }

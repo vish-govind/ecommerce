@@ -5,13 +5,17 @@ import java.util.List;
 import com.ecommerce.dmart.dto.CartDTO;
 import com.ecommerce.dmart.dto.CartItemDTO;
 
-public interface CartService  {
-	
-	CartDTO addToCart(Long userId, CartItemDTO cartItemDto);
-    void updateCart(Long userId, CartItemDTO cartItemDto);
-    void removeFromCart(Long userId,Long productId);
-    List<CartItemDTO> getCartItems(Long userId);
-    void clearCart(Long userId);
-	CartDTO getCart(Long userId);
+public interface CartService {
 
+    CartDTO addToCart(String username, CartItemDTO cartItemDto);
+
+    void updateCart(String username, CartItemDTO cartItemDto);
+
+    void removeFromCart(String username, Long productId);
+
+    List<CartItemDTO> getCartItems(String username);
+
+    void clearCart(String username);
+
+    CartDTO getCart(String username);
 }

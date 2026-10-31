@@ -5,7 +5,6 @@ import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,7 +25,6 @@ public class UserAuthServiceImpl implements UserDetailsService {
 	}
 
 	@Override
-	@Cacheable(value = "users", key = "#username")
 	public UserDetails loadUserByUsername(String username) {
 		logger.info("Loading user by username: {}", username);
 		User user = userRepo.findByUserName(username)

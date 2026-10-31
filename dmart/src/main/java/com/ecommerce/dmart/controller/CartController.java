@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,55 +19,72 @@ import com.ecommerce.dmart.dto.CartDTO;
 import com.ecommerce.dmart.dto.CartItemDTO;
 import com.ecommerce.dmart.service.CartService;
 
-
 @RestController
 @RequestMapping("/cart")
 public class CartController {
-	
-	 private static final Logger logger = LoggerFactory.getLogger(CartController.class);	
-	 private final CartService cartService;
 
-	    public CartController(CartService cartService) {
-	        this.cartService = cartService;
-	    }
+    private static final Logger logger =
+            LoggerFactory.getLogger(CartController.class);
 
-	    @PostMapping("/add/{userId}")
-	    public ResponseEntity<CartDTO> addToCart(@PathVariable Long userId, @RequestBody CartItemDTO cartItemDto) {
-	    	logger.info("Adding product {} to cart for user {}", cartItemDto.getProductId(), userId);
-	        CartDTO updatedCart = cartService.addToCart(userId, cartItemDto);
-	        logger.info("Successfully added product {} to cart for user {}", cartItemDto.getProductId(), userId);
-	        return ResponseEntity.ok(updatedCart);
-	    }
+    private final CartService cartService;
 
-	    @PutMapping("/update/{userId}")
-	    public ResponseEntity<String> updateCart(@PathVariable Long userId, @RequestBody CartItemDTO cartItemDto) {
-	    	logger.info("Updating cart for user {} with product {}", userId, cartItemDto.getProductId());
-	        cartService.updateCart(userId, cartItemDto);
-	        logger.info("Cart updated successfully for user {}", userId);
-	        return ResponseEntity.ok("Cart updated");
-	    }
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
 
-	    @DeleteMapping("/remove/{userId}/{productId}")
-	    public ResponseEntity<String> removeFromCart(@PathVariable Long userId, @PathVariable Long productId) {
-	    	logger.info("Removing product {} from cart of user {}", productId, userId);
-	        cartService.removeFromCart(userId, productId);
-	        logger.info("Product {} removed from cart for user {}", productId, userId);
-	        return ResponseEntity.ok("Item removed from cart");
-	    }
+    @PostMapping("/items")
+    public ResponseEntity<CartDTO> addToCart(
+            Authentication authentication,
+            @RequestBody CartItemDTO cartItemDto) {
 
-	    @GetMapping("/items/{userId}")
-	    public ResponseEntity<List<CartItemDTO>> getCartItems(@PathVariable Long userId) {
-	    	logger.info("Fetching cart items for user {}", userId);
-	        return ResponseEntity.ok(cartService.getCartItems(userId));
-	    }
-	    
-	    @DeleteMapping("/remove/{userId}")
-	    public ResponseEntity<String> clearCart(@PathVariable Long userId) {
-	    	logger.info("Clearing cart for user {}", userId);
-	        cartService.clearCart(userId);
-	        logger.info("Cart cleared successfully for user {}", userId);
-	        return ResponseEntity.ok("Cleared the Cart");
-	    }
+        String username = authentication.getName();
+        logger.info("Adding product {} to cart for user {}",
+                cartItemDto.getProductId(), username);
 
+        CartDTO updatedCart = cartService.addToCart(username, cartItemDto);
+        return ResponseEntity.ok(updatedCart);
+    }
 
+    @PutMapping("/items")
+    public ResponseEntity<String> updateCart(
+            Authentication authentication,
+            @RequestBody CartItemDTO cartItemDto) {
+
+        String username = authentication.getName();
+        cartService.updateCart(username, cartItemDto);
+        return ResponseEntity.ok("Cart updated");
+    }
+
+    @DeleteMapping("/items/{productId}")
+    public ResponseEntity<String> removeFromCart(
+            Authentication authentication,
+            @PathVariable Long productId) {
+
+        String username = authentication.getName();
+        cartService.removeFromCart(username, productId);
+        return ResponseEntity.ok("Item removed from cart");
+    }
+
+    @GetMapping("/items")
+    public ResponseEntity<List<CartItemDTO>> getCartItems(
+            Authentication authentication) {
+
+        String username = authentication.getName();
+        return ResponseEntity.ok(cartService.getCartItems(username));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> clearCart(Authentication authentication) {
+
+        String username = authentication.getName();
+        cartService.clearCart(username);
+        return ResponseEntity.ok("Cleared the Cart");
+    }
+
+    @GetMapping
+    public ResponseEntity<CartDTO> getCart(Authentication authentication) {
+
+        String username = authentication.getName();
+        return ResponseEntity.ok(cartService.getCart(username));
+    }
 }

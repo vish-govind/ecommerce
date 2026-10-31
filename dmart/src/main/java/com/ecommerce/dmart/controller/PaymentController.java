@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.dmart.dto.PaymentDTO;
 import com.ecommerce.dmart.service.PaymentService;
 
-@RequestMapping
-@RestController("/payments")
+@RestController
+@RequestMapping("/payments")
 public class PaymentController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);

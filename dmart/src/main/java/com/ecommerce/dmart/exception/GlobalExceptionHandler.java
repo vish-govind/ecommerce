@@ -1,5 +1,7 @@
 package com.ecommerce.dmart.exception;
 
+import org.springframework.security.access.AccessDeniedException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +31,19 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Invalid Request",
 				ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ErrorResponse> handleAccessDeniedException(
+			AccessDeniedException ex, WebRequest request) {
+
+		ErrorResponse errorResponse = new ErrorResponse(
+				HttpStatus.FORBIDDEN.value(),
+				"Forbidden",
+				"You do not have permission to access this resource",
+				request.getDescription(false));
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
 	}
 
 	// Generic Exception Handler for unexpected errors
